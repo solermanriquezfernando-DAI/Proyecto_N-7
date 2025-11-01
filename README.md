@@ -1,126 +1,150 @@
-Proyecto: Predicci�n de descargas en Google Play
-Objetivo
+📈 Predicción de Descargas de Apps en Google Play
 
-Construir un modelo predictivo para estimar la cantidad de instalaciones que tendr� una aplicaci�n en Google Play Store usando variables num�ricas y categ�ricas.
-Entregar una API funcional para realizar predicciones.
+Modelo predictivo para estimar la cantidad de instalaciones que tendrá una aplicación en Google Play Store.
+Se utilizan variables numéricas, categóricas y análisis de sentimiento de reviews.
+Incluye API para predicciones en producción.
 
-Dataset
+🧠 Objetivo del Proyecto
 
-Fuente: Kaggle � Google Play Store Apps + User Reviews.
+Construir y desplegar un modelo capaz de predecir la cantidad estimada de descargas de una app en Google Play, integrando:
 
-Variables usadas:
+Datos de aplicaciones + reviews (Kaggle)
 
-Rating
+Feature engineering
 
-Reviews
+Entrenamiento y optimización del modelo
 
-Price
+Exportación del modelo final
 
-Size
+API para inferencia
 
-Days since last update
+📂 Estructura del Proyecto
+Proyecto_N-7/
+│── api/                 # API FastAPI
+│── data/                # Dataset + instrucciones de descarga
+│── docs/                # PPT y documentación
+│── models/              # Modelo entrenado (link Drive)
+│── notebooks/           # Jupyter notebook del pipeline ML
+│── requirements.txt     # Dependencias
+└── README.md            # Este archivo
 
-Category
-(Se agreg� an�lisis de sentimiento para mejorar precisi�n)
+📊 Dataset
 
-Proceso
+Fuente: Kaggle – Google Play Store Apps + User Reviews
 
-Carga y limpieza de datos.
+Enlace dataset apps:
+https://www.kaggle.com/datasets/lava18/google-play-store-apps
 
-EDA b�sico.
+Enlace dataset reviews:
+https://www.kaggle.com/datasets/lava18/google-play-store-user-reviews
 
-Entrenamiento modelo baseline.
+🔧 Variables Utilizadas
+Tipo	Variables
+Numéricas	Rating, Reviews, Price, Size, Days since last update
+Categóricas	Category
+Texto	Sentiment score desde reviews
+🔨 Proceso
 
-Tuning e ingenier�a simple.
+Carga y limpieza de datos
 
-Modelo final entrenado.
+Feature engineering
 
-Exportaci�n del modelo (joblib).
+Pipeline ML
 
-Construcci�n y prueba de API FastAPI.
+Entrenamiento modelo baseline
 
-Presentaci�n final.
+Optimización
 
-Modelo
+Exportación del modelo
 
-Algoritmo: Random Forest Regressor
-M�trica principal: R�
+Integración API
 
-Versi�n	R�	RMSE	MAE
-Baseline	0.72	1.85M	0.89M
-Final (despliegue)	0.93	0.956 (log)	0.699 (log)
+✅ Modelo Final
 
-Interpretaci�n: modelo con precisi�n alta. Estimaciones consistentes.
+Modelo: Random Forest Regressor
+Métrica utilizada: RMSE / R²
+Mejor resultado:
 
-Requerimientos
+Se ajusta según resultados del notebook (completa tú aquí)
 
-Instalar dependencias:
+📁 Modelo (Drive):
+https://drive.google.com/file/d/1W_geXAFiSmmeBYbKMRuz9RTwTN-VtatT/view?usp=drive_link
 
+Guardar como:
+
+models/best_rf_model.pkl
+
+🚀 Cómo Ejecutar
+1) Clonar repositorio
+git clone https://github.com/solermanriquezfernando-DAI/Proyecto_N-7.git
+cd Proyecto_N-7
+
+2) Instalar dependencias
 pip install -r requirements.txt
 
-Estructura del repo
-notebooks/proyecto_google_play.ipynb
-data/instrucciones.txt
-models/best_rf_model.pkl
-api/app.py
-docs/presentacion.pdf
-README.md
-requirements.txt
+3) Ejecutar API
+uvicorn api.app:app --reload
 
-Ejecutar localmente (API)
+4) Endpoint de prueba
+http://127.0.0.1:8000/predict
 
-Desde la ra�z del repositorio:
-
-cd api
-uvicorn app:app --host 127.0.0.1 --port 8000
-
-
-Endpoints:
-
-Salud: http://127.0.0.1:8000/health
-
-Docs: http://127.0.0.1:8000/docs
-
-Ejemplo de request POST /predict
+🛰 Ejemplo Request (JSON)
 {
-  "Rating": 4.5,
-  "Reviews": 12000,
-  "Price_usd": 0,
-  "Size_mb": 25,
-  "days_since_update": 60,
-  "Category": "GAME"
+  "rating": 4.3,
+  "reviews": 265000,
+  "price": 0,
+  "size": 25,
+  "days_since_update": 30,
+  "category": "TOOLS",
+  "sentiment_score": 0.78
 }
 
-Ejemplo de respuesta
+📦 Ejemplo Response
 {
-  "pred_installs_log": 13.65,
-  "pred_installs": 850599
+  "predicted_installs": 5200000
 }
 
-Pruebas r�pidas (terminal)
+📒 Notebook del Proyecto
 
-Valida correcto:
+Ruta:
 
-curl -X POST http://127.0.0.1:8000/predict \
--H "Content-Type: application/json" \
--d '{"Rating":4.5,"Reviews":12000,"Price_usd":0,"Size_mb":25,"days_since_update":60,"Category":"GAME"}'
+/notebooks/Proyecto_goggle_play.ipynb
 
+📎 Presentación (PDF)
 
-Valida manejo error:
+Ruta:
 
-curl -X POST http://127.0.0.1:8000/predict \
--H "Content-Type: application/json" \
--d '{"Rating":4.5,"Reviews":12000,"Price_usd":0,"Size_mb":25,"days_since_update":60,"Category":"XXXX"}'
+/docs/
 
-Nota final
+🛠 Tecnologías
 
-El modelo se carga desde models/best_rf_model.pkl.
+Python
 
-La categor�a debe estar en el vocabulario original del dataset.
+Scikit-learn
 
-La API est� lista para despliegue en Render/Railway si se requiere.
+Pandas / NumPy
 
-El modelo entrenado se encuentra incluido localmente como `best_rf_model.pkl` (104MB).
-No se sube por l�mite de GitHub.
-Si se requiere para ejecutar, solicitarlo y se comparte por Drive.
-Ruta esperada: /models/best_rf_model.pkl
+FastAPI
+
+Uvicorn
+
+Google Colab / Jupyter
+
+📌 Próximos pasos
+
+Dockerfile
+
+Deploy API (Render / Railway)
+
+Dashboard de resultados
+
+Monitoreo de drift
+
+👤 Autor
+
+Fernando Soler
+Control de Proyectos | Machine Learning | Data Analytics
+
+📜 Licencia
+
+MIT
