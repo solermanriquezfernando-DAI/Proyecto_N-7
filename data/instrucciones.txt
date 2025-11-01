@@ -1,0 +1,14 @@
+Dataset utilizado: Google Play Store Apps Dataset (Kaggle)
+
+Link de descarga:
+https://www.kaggle.com/datasets/lava18/google-play-store-apps
+
+Archivos necesarios:
+- googleplaystore.csv
+- googleplaystore_user_reviews.csv
+
+Instrucciones:
+1. Ingresar al link y hacer login en Kaggle.
+2. Descargar los archivos CSV.
+3. Colocar ambos archivos en una carpeta local antes de correr el notebook.
+4. No se suben a GitHub debido a su tamaño.
