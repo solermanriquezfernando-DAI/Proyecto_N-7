@@ -51,6 +51,8 @@ def predict(payload: Features):
     except Exception as e:
         err = "".join(traceback.format_exception_only(type(e), e)).strip()
         return Response(content=f"ERROR:\n{err}", media_type="text/plain", status_code=500)
+print("FEATURES DEL MODELO:", modelo.feature_names_in_)
+
 
 
 
