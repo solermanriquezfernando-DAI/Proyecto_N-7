@@ -17,7 +17,7 @@ class Features(BaseModel):
     price: float
     size: float
     days_since_update: float
-    category: str  # p.ej. "BUSINESS", "TOOLS", etc.
+    category: str  # p.ej. "BUSINESS"
 
 @app.get("/health")
 def health():
@@ -31,12 +31,11 @@ def model_features():
 @app.post("/predict")
 def predict(payload: Features):
     try:
-        # 1) Si el modelo publica nombres de features, construimos ese vector lleno de 0
+        # Construcción del vector según lo que el modelo espera
         feat_names = getattr(modelo, "feature_names_in_", None)
         if feat_names is not None:
             X = pd.DataFrame([[0] * len(feat_names)], columns=list(feat_names))
 
-            # Cargar numéricas si el modelo las tiene
             num_map = {
                 "rating": payload.rating,
                 "reviews": payload.reviews,
@@ -47,13 +46,11 @@ def predict(payload: Features):
             for col, val in num_map.items():
                 if col in X.columns:
                     X.loc[0, col] = val
-                # soporte por si fueron entrenadas con mayúsculas
                 elif col.capitalize() in X.columns:
                     X.loc[0, col.capitalize()] = val
                 elif col.upper() in X.columns:
                     X.loc[0, col.upper()] = val
 
-            # Encendido one-hot de category si existen columnas category_*
             cat_cols = [c for c in X.columns if c.lower().startswith("category_")]
             if cat_cols:
                 target = payload.category.strip().lower().replace(" ", "_")
@@ -63,15 +60,14 @@ def predict(payload: Features):
                 if match:
                     X.loc[0, match[0]] = 1
         else:
-            # 2) Fallback: el modelo es un Pipeline que hace su propio preprocesado
-            #    Enviamos las columnas crudas tal como las define el esquema:
             X = pd.DataFrame([payload.dict()])
 
         yhat = float(modelo.predict(X)[0])
         return {"predicted_installs": yhat, "used_columns": list(X.columns)}
 
     except Exception as e:
-        # Devolver el error real en texto para depurar sin consola
         err = "".join(traceback.format_exception_only(type(e), e)).strip()
         return Response(content=f"ERROR:\n{err}", media_type="text/plain", status_code=500)
+
+
 
