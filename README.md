@@ -1,120 +1,129 @@
 📈 Predicción de Descargas de Apps en Google Play
 
-Modelo predictivo para estimar la cantidad de instalaciones que tendrá una aplicación en Google Play Store.
-Se utilizan variables numéricas, categóricas y análisis de sentimiento de reviews.
-Incluye API para predicciones en producción.
+Proyecto de Machine Learning para predecir la cantidad de instalaciones de una aplicación en Google Play Store, integrando datos de apps y análisis de sentimiento de reviews. Incluye API funcional para realizar predicciones en tiempo real.
 
-🧠 Objetivo del Proyecto
+🌐 API en Línea
 
-Construir y desplegar un modelo capaz de predecir la cantidad estimada de descargas de una app en Google Play, integrando:
+URL Pública API:
+https://pleurocarpous-wilbert-forwardly.ngrok-free.dev
 
-Datos de aplicaciones + reviews (Kaggle)
+Swagger Docs:
+https://pleurocarpous-wilbert-forwardly.ngrok-free.dev/docs
+
+Requiere mantener ngrok activo localmente (deploy demostrativo).
+
+🧠 Objetivo
+
+Construir y desplegar un modelo predictivo que estime la cantidad de instalaciones de apps usando:
+
+Datos estructurados (Google Play)
+
+Sentimiento de reviews
 
 Feature engineering
 
-Entrenamiento y optimización del modelo
-
-Exportación del modelo final
+Random Forest optimizado
 
 API para inferencia
 
-📂 Estructura del Proyecto
-Proyecto_N-7/
-│── api/                 # API FastAPI
-│── data/                # Dataset + instrucciones de descarga
-│── docs/                # PPT y documentación
-│── models/              # Modelo entrenado (link Drive)
-│── notebooks/           # Jupyter notebook del pipeline ML
-│── requirements.txt     # Dependencias
-└── README.md            # Este archivo
-
 📊 Dataset
 
-Fuente: Kaggle – Google Play Store Apps + User Reviews
+Fuente: Kaggle
 
-Enlace dataset apps:
-https://www.kaggle.com/datasets/lava18/google-play-store-apps
+Apps: https://www.kaggle.com/datasets/lava18/google-play-store-apps
 
-Enlace dataset reviews:
-https://www.kaggle.com/datasets/lava18/google-play-store-user-reviews
+Reviews: https://www.kaggle.com/datasets/lava18/google-play-store-user-reviews
 
 🔧 Variables Utilizadas
 Tipo	Variables
-Numéricas	Rating, Reviews, Price, Size, Days since last update
+Numéricas	Rating, Reviews, Price, Size, Days_since_update
 Categóricas	Category
-Texto	Sentiment score desde reviews
-🔨 Proceso
+Texto/Sentimiento	Sentiment score desde reviews
+🏗 Pipeline
 
-Carga y limpieza de datos
+Limpieza y preparación de datos
 
-Feature engineering
+Feature Engineering
 
-Pipeline ML
+Entrenamiento baseline
 
-Entrenamiento modelo baseline
+Optimización Random Forest
 
-Optimización
+Exportación de modelo
 
-Exportación del modelo
-
-Integración API
+API FastAPI + Uvicorn
 
 ✅ Modelo Final
 
 Modelo: Random Forest Regressor
-Métrica utilizada: RMSE / R²
-Mejor resultado:
+Métricas Finales:
 
-Se ajusta según resultados del notebook (completa tú aquí)
+R²: COMPLETAR
+RMSE: COMPLETAR
+MAE: COMPLETAR
 
-📁 Modelo (Drive):
-https://drive.google.com/file/d/1W_geXAFiSmmeBYbKMRuz9RTwTN-VtatT/view?usp=drive_link
 
-Guardar como:
+Completa con tus valores del notebook antes de entregar.
 
-models/best_rf_model.pkl
+📦 Modelo Entrenado
 
-🚀 Cómo Ejecutar
-1) Clonar repositorio
+Ruta local esperada:
+
+Proyecto_N-7/models/best_rf_model.pkl
+
+
+Drive:
+https://drive.google.com/file/d/1W_geXAFiSmmeBYbKMRuz9RTwTN-VtatT/view
+
+📂 Estructura del Proyecto
+Proyecto_N-7/
+│── api/                  # API FastAPI
+│── data/                 # Datasets / instrucciones descarga
+│── docs/                 # PPT y documentación
+│── models/               # best_rf_model.pkl
+│── notebooks/            # Desarrollo ML
+│── requirements.txt
+└── README.md
+
+🚀 Cómo Ejecutar Localmente
 git clone https://github.com/solermanriquezfernando-DAI/Proyecto_N-7.git
 cd Proyecto_N-7
-
-2) Instalar dependencias
 pip install -r requirements.txt
-
-3) Ejecutar API
 uvicorn api.app:app --reload
 
-4) Endpoint de prueba
-http://127.0.0.1:8000/predict
 
-🛰 Ejemplo Request (JSON)
+Probar en Swagger:
+http://127.0.0.1:8000/docs
+
+🛰 Ejemplo Request
 {
-  "rating": 4.3,
-  "reviews": 265000,
-  "price": 0,
-  "size": 25,
-  "days_since_update": 30,
-  "category": "TOOLS",
-  "sentiment_score": 0.78
+ "rating": 4.3,
+ "reviews": 265000,
+ "price": 0,
+ "size": 25,
+ "days_since_update": 30,
+ "category": "TOOLS",
+ "sentiment_score": 0.78
 }
 
-📦 Ejemplo Response
+📎 Response
 {
-  "predicted_installs": 5200000
+ "predicted_installs": 5200000
 }
 
-📒 Notebook del Proyecto
+🎥 Demo de Funcionamiento
 
-Ruta:
+Incluye:
 
-/notebooks/Proyecto_goggle_play.ipynb
+✅ Levantamiento API
+✅ Predicción real
+✅ Test vía navegador / Swagger
 
-📎 Presentación (PDF)
+(Profesor: solicitar video si es necesario)
 
-Ruta:
+🧠 Reflexión Técnica
 
-/docs/
+El modelo captura bien patrones generales de instalación. Presenta limitaciones en valores extremos por distribución heavy-tailed. Futuros pasos incluyen refinamiento log-transforms, ajuste Bayesian Optimization y deploy permanente en Railway/Render con contenedor Docker.
 
 🛠 Tecnologías
 
@@ -128,23 +137,12 @@ FastAPI
 
 Uvicorn
 
-Google Colab / Jupyter
+Google Colab
 
-📌 Próximos pasos
-
-Dockerfile
-
-Deploy API (Render / Railway)
-
-Dashboard de resultados
-
-Monitoreo de drift
+Ngrok
 
 👤 Autor
 
-Fernando Soler
+Fernando Soler Manriquez 
 Control de Proyectos | Machine Learning | Data Analytics
-
-📜 Licencia
-
-MIT
+Repositorio: https://github.com/solermanriquezfernando-DAI
